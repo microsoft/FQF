@@ -401,10 +401,20 @@ class FQFAgent(rainbow_agent.RainbowAgent):
       grads = tf.gradients(quantile_tau, fqf_params, grad_ys=self.chosen_action_gradient_tau)
       print (grads)
       grads_and_vars = [(grads[i], fqf_params[i]) for i in range(len(grads))]
-      return self.optimizer.minimize(tf.reduce_mean(loss), var_list=iqn_params), \
-              self.optimizer1.apply_gradients(grads_and_vars), \
-              self.optimizer1.minimize(self.ent * tf.reduce_mean(-q_entropy), var_list=fqf_params), \
-              tf.reduce_mean(loss), tf.reduce_mean(loss1), \
-              tf.squeeze(chosen_action_quantile_values), \
-              tf.squeeze(replay_quantiles[:,0,:,:]), \
-              self._replay_net_outputs.v_diff
+      if 'sqloss' in self._runtype:
+          print ('use sqloss')
+          return self.optimizer.minimize(tf.reduce_mean(loss), var_list=iqn_params), \
+                      self.optimizer1.minimize(tf.reduce_mean(loss1), var_list=fqf_params), \
+                      tf.reduce_mean(loss), tf.reduce_mean(loss1), \
+                      tf.squeeze(chosen_action_quantile_values), \
+                      tf.squeeze(replay_quantiles[:,0,:,:]), \
+                      self._replay_net_outputs.v_diff
+      else:
+          print ('use directBP')
+          return self.optimizer.minimize(tf.reduce_mean(loss), var_list=iqn_params), \
+                  self.optimizer1.apply_gradients(grads_and_vars), \
+                  self.optimizer1.minimize(self.ent * tf.reduce_mean(-q_entropy), var_list=fqf_params), \
+                  tf.reduce_mean(loss), tf.reduce_mean(loss1), \
+                  tf.squeeze(chosen_action_quantile_values), \
+                  tf.squeeze(replay_quantiles[:,0,:,:]), \
+                  self._replay_net_outputs.v_diff
