@@ -470,6 +470,9 @@ class Runner(object):
     self._save_tensorboard_summaries(iteration, num_episodes_train,
                                      average_reward_train, num_episodes_eval,
                                      average_reward_eval)
+    if not self.testing:
+        self.fout_test.write('%d %f %d\n' % (iteration, average_reward_eval, num_episodes_eval))
+        self.fout_test.flush()
     return statistics.data_lists
 
   def _save_tensorboard_summaries(self, iteration,

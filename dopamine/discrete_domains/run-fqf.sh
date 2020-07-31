@@ -12,7 +12,7 @@ declare -a seeds=(0)
 declare -a factors=(0.00001 0.000001)
 declare -a ents=(0.0001 0.00001)
 declare -a optimizers=('rmsprop')
-declare -a losses=('directbp' 'sqloss')
+declare -a losses=('sqloss')
 
 for game in "${games[@]}"
 do
