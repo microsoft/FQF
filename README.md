@@ -42,6 +42,9 @@ cd FQF/dopamine/discrete_domains
 bash run-fqf.sh
 ```
 
+## Bug Fixed
+- It is recommended to use the L2 loss on gradient for probability proposal network, or clip the largest proposed probability to 0.98. The reason is as follows: in quantile function, when the probability goes to 1, the quantile value goes to infinity(or a very large number). Although a very large quantile value is reasonable for a probability such as 0.9999999, with limited approximation ability of neural network, quantile values for other probabilities will go up quickly, leading to a performance drop. 
+
 ## Acknowledgement
 - Our code is implemented based on [dopamine](https://github.com/google/dopamine).
 
