@@ -27,6 +27,7 @@ import csv, json, pickle
 from dopamine.agents.dqn import dqn_agent
 from dopamine.agents.implicit_quantile import implicit_quantile_agent
 from dopamine.agents.rainbow import rainbow_agent
+from dopamine.agents.fqf import fqf_agent
 from dopamine.discrete_domains import atari_lib
 from dopamine.discrete_domains import checkpointer
 from dopamine.discrete_domains import iteration_statistics
@@ -85,6 +86,10 @@ def create_agent(sess, environment, agent_name=None, summary_writer=None,
         summary_writer=summary_writer)
   elif agent_name == 'implicit_quantile':
     return implicit_quantile_agent.ImplicitQuantileAgent(
+        sess, num_actions=environment.action_space.n,
+        summary_writer=summary_writer)
+  elif agent_name == 'fqf':
+    return fqf_agent.FQFAgent(
         sess, num_actions=environment.action_space.n,
         summary_writer=summary_writer)
   else:

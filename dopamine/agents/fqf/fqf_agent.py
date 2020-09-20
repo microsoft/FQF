@@ -124,7 +124,10 @@ class FQFAgent(rainbow_agent.RainbowAgent):
     # have been run. This matches the Nature DQN behaviour.
     if self._replay.memory.add_count > self.min_replay_history:
       if self.training_steps % self.update_period == 0:
-        _, _, _, loss, loss1, quan_value, quan, vdiff = self._sess.run(self._train_op)
+        if 'sqloss' in self._runtype:
+            _, _, loss, loss1, quan_value, quan, vdiff = self._sess.run(self._train_op)
+        else:
+            _, _, _, loss, loss1, quan_value, quan, vdiff = self._sess.run(self._train_op)
         if self.training_steps % 50000 == 0:
             batchsize = 32
             quan_value = np.reshape(quan_value, [batchsize, self.num_tau_samples])

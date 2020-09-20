@@ -32,7 +32,7 @@ tf.train.AdamOptimizer.epsilon = 0.0003125
 
 atari_lib.create_atari_environment.game_name = 'GAME'
 atari_lib.create_atari_environment.sticky_actions = False
-create_agent.agent_name = 'implicit_quantile'
+create_agent.agent_name = 'fqf'
 Runner.num_iterations = 200
 Runner.game = 'GAME'
 Runner.runtype = 'RUNTYPE'
